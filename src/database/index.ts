@@ -25,9 +25,13 @@ function parseOptions(options?: DatabaseConnectOptions): DatabaseConnectParsedOp
         options = process.env.DATABASE_URL;
     }
     if (!options) {
+        const os = require('node:os');
+        let path_sep = "/"
+        if (os.type == "Windows_NT") {path_sep = "\\"}
+        
         options = {
             type: "filesystem",
-            path: process.env.DATABASE_JSON_FILE || (process.cwd() + '/crm.json'),
+            path: process.env.DATABASE_JSON_FILE || (process.cwd() + path_sep + 'crm.json'),
         }
     }
     if (typeof options !== "string") {
